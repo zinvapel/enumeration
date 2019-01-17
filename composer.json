@@ -1,0 +1,19 @@
+{
+    "name": "zinvapel/enumeration",
+    "description": "An enumeration class",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Pavel Murtazin",
+            "email": "zinvapel@icloud.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Zinvapel\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.4"
+    }
+}
