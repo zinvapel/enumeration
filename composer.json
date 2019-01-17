@@ -2,6 +2,9 @@
     "name": "zinvapel/enumeration",
     "description": "An enumeration class",
     "type": "library",
+    "license": "MIT",
+    "keywords": ["enum", "enumeration"],
+    "homepage": "https://zinvapel.github.io",
     "authors": [
         {
             "name": "Pavel Murtazin",
