@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Zinvapel\Enumeration;
 
@@ -16,7 +17,7 @@ abstract class BaseEnumeration
     /**
      * @var string[]
      */
-    protected $names = [];
+    protected array $names = [];
 
     /**
      * @param mixed $value
@@ -32,7 +33,7 @@ abstract class BaseEnumeration
      * @param mixed $value
      * @return static
      */
-    final public static function create($value)
+    final public static function create($value): self
     {
         return new static($value);
     }
@@ -40,10 +41,10 @@ abstract class BaseEnumeration
     /**
      * @return mixed[]
      */
-    final public static function getValuesList()
+    final public static function getValuesList(): array
     {
         try {
-            return (new ReflectionClass(get_called_class()))->getConstants();
+            return (new ReflectionClass(static::class))->getConstants();
         } catch (ReflectionException $e) {
             return []; // Never happens
         }
@@ -52,7 +53,7 @@ abstract class BaseEnumeration
     /**
      * @return string[]
      */
-    final public static function getNamesList()
+    final public static function getNamesList(): array
     {
         $values = static::getValuesList();
 
@@ -63,7 +64,7 @@ abstract class BaseEnumeration
      * @param mixed $value
      * @return bool
      */
-    final public static function contains($value)
+    final public static function contains($value): bool
     {
         return in_array($value, static::getValuesList(), true);
     }
@@ -79,7 +80,7 @@ abstract class BaseEnumeration
     /**
      * @return string
      */
-    final public function getName()
+    final public function getName(): string
     {
         if (!isset($this->names[$this->getValue()])) {
             throw new InvalidArgumentException(
@@ -94,7 +95,7 @@ abstract class BaseEnumeration
      * @param BaseEnumeration|mixed $value
      * @return bool
      */
-    public function eq($value)
+    public function eq($value): bool
     {
         if (!is_object($value)) {
             return ($this->value === $value);
@@ -103,7 +104,6 @@ abstract class BaseEnumeration
         if (!is_a($value, get_class($this))) {
             return false;
         }
-        /* @var BaseEnumeration $value */
 
         return $this->getValue() === $value->getValue();
     }
@@ -112,7 +112,7 @@ abstract class BaseEnumeration
      * @param BaseEnumeration|mixed $value
      * @return bool
      */
-    public function neq($value)
+    public function neq($value): bool
     {
         return !$this->eq($value);
     }
@@ -122,14 +122,14 @@ abstract class BaseEnumeration
      * @return void
      * @throws InvalidArgumentException
      */
-    private function validate($value)
+    private function validate($value): void
     {
         if (!static::contains($value)) {
             throw new InvalidArgumentException(
                 sprintf(
                     "'%s' is not a valid value for '%s'",
                     $value,
-                    get_called_class()
+                    static::class
                 )
             );
         }
